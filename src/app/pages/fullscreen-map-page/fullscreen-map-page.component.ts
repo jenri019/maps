@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { MapComponent } from '@maplibre/ngx-maplibre-gl';
+import { MapComponent, MarkerComponent } from '@maplibre/ngx-maplibre-gl';
 
 @Component({
     selector: 'app-fullscreen-map-page',
-    imports: [MapComponent],
+    imports: [MapComponent, MarkerComponent],
     templateUrl: './fullscreen-map-page.component.html',
 })
-export class FullscreenMapPageComponent { }
+export class FullscreenMapPageComponent {
+    alert(message: string) {
+        alert(message);
+    }
+}
