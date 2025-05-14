@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "set-envs": "node ./scripts/set-envs.js"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "@maplibre/ngx-maplibre-gl": "^19.0.1",
     "@tailwindcss/postcss": "^4.1.6",
     "daisyui": "^5.0.35",
+    "dotenv": "^16.5.0",
     "maplibre-gl": "^5.5.0",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
