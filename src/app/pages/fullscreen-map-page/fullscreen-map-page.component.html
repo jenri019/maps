@@ -1,13 +1,3 @@
 <section class="flex flex-col flex-1 flex-grow">
-    <mgl-map #mapLibre [style]="'https://demotiles.maplibre.org/style.json'" [zoom]="[zoom()]"
-        [center]="[0, 0]" (move)="onMapMove($event)"
-        [minZoom]="1"
-        [maxZoom]="10">
-    </mgl-map>
-    <div class="control flex flex-col m-2">
-        <label for="">Zoom {{ zoom() | number:'1.1-1' }}</label>
-        <input type="range" min="1" max="10" step="0.1" [value]="zoom()" (input)="onZoomInput(+mapZoom.value)"
-            #mapZoom />
-    </div>
-    <button (click)="centerMap()" class="m-2">centrar</button>
+    <app-map-view />
 </section>
