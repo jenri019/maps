@@ -1,21 +1,13 @@
-<section class="flex flex-1 flex-grow h-100">
-    <mgl-map [style]="
-        'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'
-      " [zoom]="[5]" [center]="[-65.017, -16.457]" [canvasContextAttributes]="{preserveDrawingBuffer: true}">
-        <mgl-marker [lngLat]="[-166.324462890625, -16.024695711685304]">
-            <div (click)="alert('Foo')" class="marker cursor-pointer">
-                <img src="/assets/location.svg" width="25" height="25" />
-            </div>
-        </mgl-marker>
-        <mgl-marker [lngLat]="[-611.2158203125, -15.97189158092897]">
-            <div (click)="alert('Bar')" class="marker cursor-pointer">
-                <img src="/assets/location.svg" width="25" height="25" />
-            </div>
-        </mgl-marker>
-        <mgl-marker [lngLat]="[-63.29223632812499, -18.28151823530889]">
-            <div (click)="alert('Baz')" class="marker cursor-pointer">
-                <img src="/assets/location.svg" width="25" height="25" />
-            </div>
-        </mgl-marker>
+<section class="flex flex-col flex-1 flex-grow">
+    <mgl-map #mapLibre [style]="'https://demotiles.maplibre.org/style.json'" [zoom]="[zoom()]"
+        [center]="[0, 0]" (move)="onMapMove($event)"
+        [minZoom]="1"
+        [maxZoom]="10">
     </mgl-map>
+    <div class="control flex flex-col m-2">
+        <label for="">Zoom {{ zoom() | number:'1.1-1' }}</label>
+        <input type="range" min="1" max="10" step="0.1" [value]="zoom()" (input)="onZoomInput(+mapZoom.value)"
+            #mapZoom />
+    </div>
+    <button (click)="centerMap()" class="m-2">centrar</button>
 </section>

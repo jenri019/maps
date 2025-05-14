@@ -25,7 +25,6 @@ export class NavbarComponent {
     // Getting page title as a obervable
     pageTitle$ = this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd),
-        tap((event) => console.log(event)),
         map((event) => {
             return event.url
         }),
