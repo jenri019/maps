@@ -1,1 +1,6 @@
-<p>fullscreen-map-page works!</p>,
+<section class="flex flex-1 flex-grow h-100">
+    <mgl-map [style]="
+        'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'
+      " [zoom]="[3]" [center]="[-77.38, 39]" [canvasContextAttributes]="{preserveDrawingBuffer: true}">
+    </mgl-map>
+</section>
