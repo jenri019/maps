@@ -1,15 +1,23 @@
-<mgl-map #mapLibre [style]="'https://demotiles.maplibre.org/style.json'" [zoom]="[zoom()]" [center]="[0, 0]"
-    (move)="onMapMove($event)" [minZoom]="1" [maxZoom]="10" [canvasContextAttributes]="{preserveDrawingBuffer: true}">
-    @if (mapType() === 'markers') {
-        @for (marker of markersValue(); track $index) {
-            <mgl-marker [lngLat]="marker.coordinates">
-                <div (click)="moveMap(marker.coordinates)" class="marker cursor-pointer">
-                    <img src="/assets/location.svg" width="25" height="25" />
-                </div>
-            </mgl-marker>
+<mgl-map
+        #mapLibre
+        [style]="'https://demotiles.maplibre.org/style.json'"
+        [zoom]="[zoom()]" [center]="[0, 0]"
+        (move)="onMapMove($event)"
+        [minZoom]="1"
+        [maxZoom]="10"
+        (mapClick)="onMapClick($event)"
+        [canvasContextAttributes]="{preserveDrawingBuffer: true}"
+        >
+        @if (mapType() === 'markers') {
+            @for (marker of markers(); track $index) {
+                <mgl-marker [lngLat]="marker.coordinates">
+                    <div (click)="moveMap(marker.coordinates); $event.stopPropagation()" class="marker cursor-pointer">
+                        <img src="/assets/location.svg" width="25" height="25" />
+                    </div>
+                </mgl-marker>
+            }
         }
-    }
-</mgl-map>
+    </mgl-map>
 <div class="control flex flex-col m-2">
     <label for="">Zoom {{ zoom() | number:'1.1-1' }}</label>
     <input type="range" min="1" max="10" step="0.1" [value]="zoom()" (input)="onZoomInput(+mapZoom.value)" #mapZoom />
