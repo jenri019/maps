@@ -4,7 +4,9 @@
     themes: all;
 }
 
-app-fullscreen-map-page {
+app-fullscreen-map-page,
+app-markers-page,
+app-map-view {
     display: flex;
     flex-direction: column;
     height: 100%;
