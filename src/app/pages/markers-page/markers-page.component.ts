@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { MapViewComponent } from "../../components/map-view/map-view.component";
+import { MapViewComponent } from "../../maps/components/map-view/map-view.component";
 
 @Component({
     selector: 'app-markers-page',
@@ -8,7 +8,7 @@ import { MapViewComponent } from "../../components/map-view/map-view.component";
 ],
     templateUrl: './markers-page.component.html',
 })
-export class MarkersPageComponent {
+export default class MarkersPageComponent {
     zoom = signal(1);
     /* markers = [
         {

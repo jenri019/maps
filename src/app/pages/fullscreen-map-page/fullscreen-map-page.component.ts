@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MapViewComponent } from "../../components/map-view/map-view.component";
+import { MapViewComponent } from "../../maps/components/map-view/map-view.component";
 
 @Component({
     selector: 'app-fullscreen-map-page',
@@ -9,5 +9,5 @@ import { MapViewComponent } from "../../components/map-view/map-view.component";
 ],
     templateUrl: './fullscreen-map-page.component.html',
 })
-export class FullscreenMapPageComponent {
+export default class FullscreenMapPageComponent {
 }
