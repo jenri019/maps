@@ -22,7 +22,6 @@ interface MapMarker {
     templateUrl: './map-view.component.html',
 })
 export class MapViewComponent {
-    isMapReady = signal(false);
     zoom = signal(1);
     mapType = input<'fullscreen' | 'markers'>('fullscreen');
     /* markersValue = input<any[]>([]); */
@@ -34,9 +33,9 @@ export class MapViewComponent {
     /** Funciones generales */
     /** Zoom en el mapa usando el input range */
     onZoomInput(value: number) {
-        this.zoom.set(+value);
+        this.zoom.set(value);
         if (this.mapLibre && this.mapLibre.mapInstance) {
-            this.mapLibre.mapInstance.setZoom(+value);
+            this.mapLibre.mapInstance.setZoom(value);
         }
     }
 
@@ -66,6 +65,12 @@ export class MapViewComponent {
             this.mapLibre.mapInstance.easeTo({ center: marker.coordinates, duration: 600 }); // animación suave
             this.selectedMarker.set(marker);
         }
+    }
+
+    /** Remover marcador al dar clic sobre el */
+    deleteMarker(id: string) {
+        if (this.mapType() !== 'markers') return;
+        this.markers.update(current => current.filter(m => m.id !== id));
     }
 
     getRandomHexColor(): string {
