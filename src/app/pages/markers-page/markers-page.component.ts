@@ -10,16 +10,4 @@ import { MapViewComponent } from "../../maps/components/map-view/map-view.compon
 })
 export default class MarkersPageComponent {
     zoom = signal(1);
-    /* markers = [
-        {
-            id: 1,
-            coordinates: [-65.017, -16.457],
-            title: 'Marker 1',
-        },
-        {
-            id: 2,
-            coordinates: [-165.017, 16.457],
-            title: 'Marker 2',
-        }
-    ]; */
 }
