@@ -17,6 +17,11 @@ export const routes: Routes = [
         title: 'Houses',
     },
     {
+        path: 'schools',
+        loadComponent: () => import("./pages/schools-page/schools-page.component"),
+        title: 'Schools',
+    },
+    {
         path: '**',
         redirectTo: 'fullscreen',
     }

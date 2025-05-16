@@ -6,6 +6,7 @@
 
 app-fullscreen-map-page,
 app-markers-page,
+app-schools-page,
 app-map-view {
     display: flex;
     flex-direction: column;
