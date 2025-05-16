@@ -30,11 +30,11 @@ export class MapViewComponent implements AfterViewInit {
     markers = signal<MapMarker[]>([]);
 
     firstView = 0;
-    schoolMarkers = input<MapMarker[]>();
+    schoolMarkers = input<MapMarker[]>([]);
     filterTerm = signal<string>(''); // Signal para el término de búsqueda
     // Computed para filtrar las escuelas por nombre
     filteredSchoolMarkers = computed(() =>
-        (this.schoolMarkers() ?? []).filter(marker =>
+        (this.schoolMarkers()).filter(marker =>
             !this.filterTerm() ||
             marker.name?.toLowerCase().includes(this.filterTerm().toLowerCase())
         )
