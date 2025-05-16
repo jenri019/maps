@@ -28,9 +28,19 @@ export class MapViewComponent implements AfterViewInit {
     svgSize = input<number>(25);
     /* markersValue = input<any[]>([]); */
     markers = signal<MapMarker[]>([]);
-    schoolMarkers = input<any[]>();
-    selectedMarker = signal<MapMarker>(null);
+
     firstView = 0;
+    schoolMarkers = input<MapMarker[]>();
+    filterTerm = signal<string>(''); // Signal para el término de búsqueda
+    // Computed para filtrar las escuelas por nombre
+    filteredSchoolMarkers = computed(() =>
+        (this.schoolMarkers() ?? []).filter(marker =>
+            !this.filterTerm() ||
+            marker.name?.toLowerCase().includes(this.filterTerm().toLowerCase())
+        )
+    );
+
+    selectedMarker = signal<MapMarker>(null);
 
     @ViewChild('mapLibre', { static: false }) mapLibre?: MapComponent;
 
