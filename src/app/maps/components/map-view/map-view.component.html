@@ -1,18 +1,20 @@
 <mgl-map #mapLibre
-    [style]="'https://demotiles.maplibre.org/style.json'"
-    [zoom]="[zoom()]"
-    [center]="[0, 0]"
+    [style]="'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'"
+    [center]="mapType() === 'schools' ? (schoolMarkers()?.[firstView]?.coordinates ?? [0, 0]) : [-67, 46]"
     [minZoom]="1"
     [maxZoom]="10"
     [canvasContextAttributes]="{preserveDrawingBuffer: true}"
+
+    [zoom]="[zoom()]"
+
     (move)="onMapMove($event)"
     (mapClick)="addMarker($event)"
     >
-    @if (mapType() === 'markers') {
+    @if (mapType() !== 'fullscreen') {
         @for (marker of markers(); track $index) {
             <mgl-marker [lngLat]="marker.coordinates">
                 <div class="marker cursor-pointer" (click)="deleteMarker(marker.id); $event.stopPropagation()">
-                    <svg width="25" height="25" viewBox="0 0 24 24">
+                    <svg [attr.width]="svgSize()" [attr.height]="svgSize()" viewBox="0 0 24 24">
                         <path
                             d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
                             [attr.fill]="marker.color" />
@@ -22,10 +24,12 @@
         }
     }
 </mgl-map>
+
 <div class="fixed control flex flex-col m-2 bg-base-100 p-4 rounded-md bottom-10 right-0">
     <label for="">Zoom {{ zoom() | number:'1.1-1' }}</label>
     <input type="range" min="1" max="10" step="0.1" [value]="zoom()" (input)="onZoomInput(+mapZoom.value)" #mapZoom />
 </div>
+
 @if(markers().length > 0) {
     <div class="fixed flex flex-col m-2 bg-base-100 p-4 rounded-md overflow-auto max-h-1/4">
         @for (marker of markers(); track marker.id) {
@@ -36,6 +40,21 @@
             >
                 {{ marker.coordinates | json}}
                 <span class="rounded-full w-4 h-4 ml-2" [style.background]="marker.color"></span>
+            </div>
+        }
+    </div>
+}
+
+@if(mapType() === 'schools') {
+    <div class="fixed flex flex-col m-2 bg-base-100 p-4 rounded-md overflow-auto max-h-1/4">
+        <h1>Escuelas de Hidalgo</h1>
+        @for (marker of schoolMarkers()?.slice(0, 10); track marker.id) {
+            <div
+                class="my-1 flex flex-col rounded-md cursor-pointer py-1 px-3"
+                [ngClass]="{ 'bg-sky-50 text-base-100': selectedMarker() === marker }"
+                (click)="viewMarker(marker)"
+            >
+                <h1>{{ marker.name }}</h1>
             </div>
         }
     </div>

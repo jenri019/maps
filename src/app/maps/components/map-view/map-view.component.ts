@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe, JsonPipe } from '@angular/common';
-import { Component, input, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, input, signal, ViewChild } from '@angular/core';
 import { MapComponent, MarkerComponent } from '@maplibre/ngx-maplibre-gl';
 import { LngLatLike, MapLayerMouseEvent } from 'maplibre-gl';
 import { v4 as UUIDV4 } from 'uuid';
@@ -8,6 +8,7 @@ interface MapMarker {
     coordinates: LngLatLike;
     id: string;
     color: string;
+    name?: string;
 }
 
 @Component({
@@ -21,14 +22,28 @@ interface MapMarker {
     ],
     templateUrl: './map-view.component.html',
 })
-export class MapViewComponent {
+export class MapViewComponent implements AfterViewInit {
     zoom = signal(1);
-    mapType = input<'fullscreen' | 'markers'>('fullscreen');
+    mapType = input<'fullscreen' | 'markers' | 'schools'>('fullscreen');
+    svgSize = input<number>(25);
     /* markersValue = input<any[]>([]); */
     markers = signal<MapMarker[]>([]);
+    schoolMarkers = input<any[]>();
     selectedMarker = signal<MapMarker>(null);
+    firstView = 0;
 
     @ViewChild('mapLibre', { static: false }) mapLibre?: MapComponent;
+
+    ngAfterViewInit(): void {
+        if (this.mapType() === 'schools') {
+            this.zoom.set(10);
+            const firstSchool = this.schoolMarkers()?.[this.firstView];
+            if (firstSchool) {
+                this.markers.set([firstSchool]);
+                this.selectedMarker.set(firstSchool);
+            }
+        }
+    }
 
     /** Funciones generales */
     /** Zoom en el mapa usando el input range */
@@ -58,19 +73,22 @@ export class MapViewComponent {
         this.markers.update(current => [...current, marker]);
     }
 
-    /**Mover el mapa basado en coordenadas */
-    viewMarker(marker: MapMarker) {
-        if (this.mapType() !== 'markers') return;
-        if (this.mapLibre && this.mapLibre.mapInstance) {
-            this.mapLibre.mapInstance.easeTo({ center: marker.coordinates, duration: 600 }); // animación suave
-            this.selectedMarker.set(marker);
-        }
-    }
-
     /** Remover marcador al dar clic sobre el */
     deleteMarker(id: string) {
         if (this.mapType() !== 'markers') return;
         this.markers.update(current => current.filter(m => m.id !== id));
+    }
+
+    /**Mover el mapa basado en coordenadas */
+    viewMarker(marker: MapMarker) {
+        if (this.mapType() === 'fullscreen') return;
+        if (this.mapLibre && this.mapLibre.mapInstance) {
+            this.mapLibre.mapInstance.easeTo({ center: marker.coordinates, duration: 600 }); // animación suave
+            this.selectedMarker.set(marker);
+        }
+        if (this.mapType() === 'schools') {
+            this.markers.set([marker]);
+        }
     }
 
     getRandomHexColor(): string {
